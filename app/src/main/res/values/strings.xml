@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MVP</string>
+    <string name="textTV">This is the button</string>
+    <string name="buttonTextOne">Button One</string>
+    <string name="buttonTextTwo">Button Two</string>
+    <string name="buttonTextThee">Button Thee</string>
+</resources>
