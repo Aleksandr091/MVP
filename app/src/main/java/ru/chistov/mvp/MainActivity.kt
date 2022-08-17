@@ -2,26 +2,32 @@ package ru.chistov.mvp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
 import ru.chistov.mvp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
 
     private var _binding: ActivityMainBinding? = null
     private val binding: ActivityMainBinding
         get() = _binding!!
 
-    private lateinit var presenter: CountersPresenter
 
-    private val model = CountersModel()
+    private val presenter by moxyPresenter { CountersPresenter(CountersModel()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initPresenter()
+        //initPresenter()
 
+        setOnClickListenerBtn()
+    }
+
+    private fun setOnClickListenerBtn() {
         with(binding) {
             btnOne.setOnClickListener {
                 presenter.onCounterClickBtnOne()
@@ -35,9 +41,9 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
-    private fun initPresenter() {
-        presenter = CountersPresenter(this, model)
-    }
+    /*private fun initPresenter() {
+        presenter = CountersPresenter(CountersModel())
+    }*/
 
     override fun setButtonTextOne(counter: String) {
         binding.tvTextOne.text = counter

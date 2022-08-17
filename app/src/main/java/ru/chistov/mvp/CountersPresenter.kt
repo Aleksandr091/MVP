@@ -1,18 +1,21 @@
 package ru.chistov.mvp
 
+import moxy.InjectViewState
+import moxy.MvpPresenter
 
-class CountersPresenter(private val view: MainView, private val model: CountersModel) {
+@InjectViewState
+class CountersPresenter( private val model: CountersModel) : MvpPresenter<MainView>() {
 
     fun onCounterClickBtnOne() {
-        view.setButtonTextOne(model.next(ID_BUTTON_ONE).toString())
+        viewState.setButtonTextOne(model.next(ID_BUTTON_ONE).toString())
     }
 
     fun onCounterClickBtnTwo() {
-        view.setButtonTextTwo(model.next(ID_BUTTON_TWO).toString())
+        viewState.setButtonTextTwo(model.next(ID_BUTTON_TWO).toString())
     }
 
     fun onCounterClickBtnThee() {
-        view.setButtonTextThee(model.next(ID_BUTTON_THEE).toString())
+        viewState.setButtonTextThee(model.next(ID_BUTTON_THEE).toString())
     }
 
 }
