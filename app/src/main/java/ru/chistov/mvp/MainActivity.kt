@@ -22,8 +22,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //initPresenter()
-
         setOnClickListenerBtn()
     }
 
@@ -40,10 +38,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             }
         }
     }
-
-    /*private fun initPresenter() {
-        presenter = CountersPresenter(CountersModel())
-    }*/
 
     override fun setButtonTextOne(counter: String) {
         binding.tvTextOne.text = counter
