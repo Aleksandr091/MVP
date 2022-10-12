@@ -1,6 +1,6 @@
-package ru.chistov.mvp
+package ru.chistov.mvp.repository.impl
 
-class CountersModel {
+class CountersRepository {
 
     private val counters = mutableListOf(0, 0, 0)
 
