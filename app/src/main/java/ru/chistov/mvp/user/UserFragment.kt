@@ -9,7 +9,6 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.GeekBrainsApp
 import ru.chistov.mvp.core.OnBackPressedListener
-import ru.chistov.mvp.core.navigation.DetailsScreen
 import ru.chistov.mvp.databinding.FragmentUsersListBinding
 import ru.chistov.mvp.main.UserAdapter
 import ru.chistov.mvp.model.GithubUser
@@ -52,6 +51,14 @@ class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener,OnI
 
     override fun initList(list: List<GithubUser>) {
         adapter.users = list
+    }
+
+    override fun showLoading() {
+        viewBinding.progressBar.visibility=View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        viewBinding.progressBar.visibility=View.GONE
     }
 
     override fun onBackPressed() = presenter.onBackPressed()

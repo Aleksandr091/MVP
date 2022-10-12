@@ -9,4 +9,8 @@ import ru.chistov.mvp.model.GithubUser
 interface UserView : MvpView {
 
     fun initList(list: List<GithubUser>)
+
+    fun showLoading()
+
+    fun hideLoading()
 }

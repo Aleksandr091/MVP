@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.rxjava3.core.Single
 import ru.chistov.mvp.databinding.ItemUserBinding
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.user.OnItemClickListener

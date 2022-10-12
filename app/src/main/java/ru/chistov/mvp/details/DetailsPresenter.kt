@@ -1,9 +1,11 @@
 package ru.chistov.mvp.details
 
+import android.util.Log
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import ru.chistov.mvp.core.navigation.UsersScreen
 import ru.chistov.mvp.repository.Interface.GithubRepository
+import ru.chistov.mvp.subscribeByDefault
 
 class DetailsPresenter(
     private val repository: GithubRepository,
@@ -16,10 +18,15 @@ class DetailsPresenter(
     }
 
     fun loadUser(id:Long){
-        val user = repository.getUserById(id)
-        if (user != null) {
-            viewState.show(user)
-        }
+        repository.getUserById(id)
+            .subscribeByDefault()
+            .subscribe(
+                {viewState.show(it)
+                },{
+                    Log.e("@@@",it.message.toString())
+                }
+
+            )
 
 
     }
