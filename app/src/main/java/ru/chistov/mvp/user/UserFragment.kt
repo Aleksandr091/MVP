@@ -14,7 +14,7 @@ import ru.chistov.mvp.main.UserAdapter
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
 
-class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener,OnItemClickListener {
+class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener, OnItemClickListener {
 
     companion object {
         fun getInstance(): UserFragment {
@@ -54,15 +54,15 @@ class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener,OnI
     }
 
     override fun showLoading() {
-        viewBinding.progressBar.visibility=View.VISIBLE
+        viewBinding.progressBar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        viewBinding.progressBar.visibility=View.GONE
+        viewBinding.progressBar.visibility = View.GONE
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
-    override fun onItemClick(id:Long) {
+    override fun onItemClick(id: Long) {
         presenter.onItemClicked(id)
     }
 

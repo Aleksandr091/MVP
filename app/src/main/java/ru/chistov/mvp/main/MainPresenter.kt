@@ -10,7 +10,7 @@ class MainPresenter(private val router: Router) : MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.navigateTo(UsersScreen)
+        router.replaceScreen(UsersScreen)
     }
 
     fun onBackPressed() {

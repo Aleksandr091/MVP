@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.rxjava3.core.Single
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.GeekBrainsApp
@@ -21,8 +20,8 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
         @JvmStatic
         fun getInstance(id: Long): DetailsFragment {
             return DetailsFragment().apply {
-                arguments=Bundle().apply {
-                    putLong(ID,id)
+                arguments = Bundle().apply {
+                    putLong(ID, id)
                 }
             }
         }
@@ -65,7 +64,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
 
     override fun show(user: GithubUser) {
         binding.apply {
-            tvUserLogin.text=user.login
+            tvUserLogin.text = user.login
         }
     }
 }

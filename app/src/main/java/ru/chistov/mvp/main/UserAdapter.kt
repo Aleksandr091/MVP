@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.rxjava3.core.Single
 import ru.chistov.mvp.databinding.ItemUserBinding
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.user.OnItemClickListener
 
-class UserAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<UserAdapter.GithubUserViewHolder>() {
+class UserAdapter(private val onItemClickListener: OnItemClickListener) :
+    RecyclerView.Adapter<UserAdapter.GithubUserViewHolder>() {
 
     var users: List<GithubUser> = emptyList()
         set(value) {
@@ -35,6 +35,7 @@ class UserAdapter(private val onItemClickListener: OnItemClickListener) : Recycl
     override fun getItemCount(): Int {
         return users.size
     }
+
     inner class GithubUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(githubUser: GithubUser) {

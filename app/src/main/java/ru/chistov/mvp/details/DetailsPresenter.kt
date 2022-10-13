@@ -17,13 +17,14 @@ class DetailsPresenter(
 
     }
 
-    fun loadUser(id:Long){
+    fun loadUser(id: Long) {
         repository.getUserById(id)
             .subscribeByDefault()
             .subscribe(
-                {viewState.show(it)
-                },{
-                    Log.e("@@@",it.message.toString())
+                {
+                    viewState.show(it)
+                }, {
+                    Log.e("@@@", it.message.toString())
                 }
 
             )
