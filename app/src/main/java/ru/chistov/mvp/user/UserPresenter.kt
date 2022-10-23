@@ -4,6 +4,7 @@ import android.util.Log
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import ru.chistov.mvp.core.navigation.DetailsScreen
+import ru.chistov.mvp.disposeBy
 import ru.chistov.mvp.repository.Interface.GithubRepository
 import ru.chistov.mvp.subscribeByDefault
 
@@ -28,8 +29,8 @@ class UserPresenter(
             )
     }
 
-    fun onItemClicked(id: Long) {
-        router.navigateTo(DetailsScreen(id))
+    fun onItemClicked(login: String) {
+        router.navigateTo(DetailsScreen(login))
     }
 
     fun onBackPressed(): Boolean {

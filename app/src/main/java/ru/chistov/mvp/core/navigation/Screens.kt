@@ -13,8 +13,8 @@ object UsersScreen : FragmentScreen {
     }
 }
 
-data class DetailsScreen(private val id: Long) : FragmentScreen {
+data class DetailsScreen(private val login: String) : FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment {
-        return DetailsFragment.getInstance(id)
+        return DetailsFragment.getInstance(login)
     }
 }

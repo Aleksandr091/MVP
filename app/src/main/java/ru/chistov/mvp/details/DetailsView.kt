@@ -8,4 +8,9 @@ import ru.chistov.mvp.model.GithubUser
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface DetailsView : MvpView {
     fun show(user: GithubUser)
+
+    fun showLoading()
+
+    fun hideLoading()
+
 }

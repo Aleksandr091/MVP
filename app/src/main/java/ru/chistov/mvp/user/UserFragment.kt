@@ -9,8 +9,10 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.GeekBrainsApp
 import ru.chistov.mvp.core.OnBackPressedListener
+import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentUsersListBinding
-import ru.chistov.mvp.main.UserAdapter
+import ru.chistov.mvp.makeGone
+import ru.chistov.mvp.makeVisible
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
 
@@ -27,7 +29,11 @@ class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener, On
     private val adapter = UserAdapter(this)
 
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(GithubRepositoryImpl(), GeekBrainsApp.instance.router)
+        UserPresenter(
+            GithubRepositoryImpl(
+                NetworkProvider.usersApi),
+                GeekBrainsApp.instance.router
+        )
     }
 
     override fun onCreateView(
@@ -54,16 +60,22 @@ class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener, On
     }
 
     override fun showLoading() {
-        viewBinding.progressBar.visibility = View.VISIBLE
+        with(viewBinding) {
+            progressBar.makeVisible()
+            rvGithubUsers.makeGone()
+        }
     }
 
     override fun hideLoading() {
-        viewBinding.progressBar.visibility = View.GONE
+        with(viewBinding) {
+            progressBar.makeGone()
+            rvGithubUsers.makeVisible()
+        }
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
-    override fun onItemClick(id: Long) {
-        presenter.onItemClicked(id)
+    override fun onItemClick(login: String) {
+        presenter.onItemClicked(login)
     }
 
 

@@ -1,5 +1,8 @@
 package ru.chistov.mvp
 
+import android.view.View
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -20,4 +23,19 @@ fun <T> Single<T>.subscribeByDefault(): Single<T> {
 
 fun Disposable.disposeBy(bag: CompositeDisposable) {
     bag.add(this)
+}
+
+fun ImageView.loadImage(url: String?) {
+    Glide.with(this.context)
+        .load(url)
+        .placeholder(R.drawable.ic_user_placeholder)
+        .into(this)
+}
+
+fun View.makeVisible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.makeGone() {
+    this.visibility = View.GONE
 }

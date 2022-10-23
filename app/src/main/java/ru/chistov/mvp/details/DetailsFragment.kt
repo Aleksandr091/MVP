@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.chistov.mvp.GeekBrainsApp
-import ru.chistov.mvp.ID
+import ru.chistov.mvp.*
 import ru.chistov.mvp.core.OnBackPressedListener
+import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentDetailsBinding
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
@@ -18,10 +18,10 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
 
     companion object {
         @JvmStatic
-        fun getInstance(id: Long): DetailsFragment {
+        fun getInstance(login: String): DetailsFragment {
             return DetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putLong(ID, id)
+                    putString(ID, login)
                 }
             }
         }
@@ -39,7 +39,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
     }
 
     private val presenter: DetailsPresenter by moxyPresenter {
-        DetailsPresenter(GithubRepositoryImpl(), GeekBrainsApp.instance.router)
+        DetailsPresenter(GithubRepositoryImpl(NetworkProvider.usersApi), GeekBrainsApp.instance.router)
     }
 
     override fun onCreateView(
@@ -54,7 +54,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getLong(ID)?.let {
+        arguments?.getString(ID)?.let {
             presenter.loadUser(it)
         }
 
@@ -65,6 +65,23 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
     override fun show(user: GithubUser) {
         binding.apply {
             tvUserLogin.text = user.login
+            ivUserAvatar.loadImage(user.avatarUrl)
+        }
+    }
+
+    override fun showLoading() {
+        binding.apply {
+            tvUserLogin.makeGone()
+            ivUserAvatar.makeGone()
+            progressBar.makeVisible()
+        }
+    }
+
+    override fun hideLoading() {
+        binding.apply {
+            tvUserLogin.makeVisible()
+            ivUserAvatar.makeVisible()
+            progressBar.makeGone()
         }
     }
 }
