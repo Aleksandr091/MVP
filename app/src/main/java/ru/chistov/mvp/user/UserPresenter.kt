@@ -2,6 +2,7 @@ package ru.chistov.mvp.user
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import ru.chistov.mvp.core.navigation.DetailsScreen
 import ru.chistov.mvp.disposeBy
@@ -12,6 +13,8 @@ class UserPresenter(
     private val repository: GithubRepository,
     private val router: Router
 ) : MvpPresenter<UserView>() {
+
+    private val bag = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -26,7 +29,7 @@ class UserPresenter(
                     Log.e("@@@", it.message.toString())
                 }
 
-            )
+            ).disposeBy(bag)
     }
 
     fun onItemClicked(login: String) {
@@ -36,6 +39,11 @@ class UserPresenter(
     fun onBackPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bag.dispose()
     }
 
 }
