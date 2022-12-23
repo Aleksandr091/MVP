@@ -1,20 +1,18 @@
-package ru.chistov.mvp.details
+package ru.chistov.mvp.userDetails
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
-import ru.chistov.mvp.core.navigation.DetailsScreen
 import ru.chistov.mvp.core.navigation.UserDetailsScreen
-import ru.chistov.mvp.core.navigation.UsersScreen
 import ru.chistov.mvp.disposeBy
 import ru.chistov.mvp.repository.Interface.GithubRepository
 import ru.chistov.mvp.subscribeByDefault
 
-class DetailsPresenter(
+class UserDetailsPresenter(
     private val repository: GithubRepository,
     private val router: Router
-) : MvpPresenter<DetailsView>() {
+) : MvpPresenter<UserDetailsView>() {
 
     private val bag = CompositeDisposable()
 
@@ -22,13 +20,13 @@ class DetailsPresenter(
         super.onFirstViewAttach()
 
     }
-
-    fun loadUser(login: String) {
-        repository.getUserById(login)
+    fun loadRepo(login: String) {
+        viewState.showLoading()
+        repository.getReposByUsers(login)
             .subscribeByDefault()
             .subscribe(
                 {
-                    viewState.show(it)
+                    viewState.initList(it)
                     viewState.hideLoading()
                 }, {
                     Log.e("@@@", it.message.toString())
@@ -39,13 +37,13 @@ class DetailsPresenter(
 
     }
 
-    fun onBackPressed(): Boolean {
-        router.backTo(UsersScreen)
-        return true
-    }
-
     fun onItemClicked(login: String) {
         router.navigateTo(UserDetailsScreen(login))
+    }
+
+    fun onBackPressed(): Boolean {
+        router.exit()
+        return true
     }
 
     override fun onDestroy() {

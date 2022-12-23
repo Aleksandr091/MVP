@@ -12,9 +12,11 @@ import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentDetailsBinding
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
+import ru.chistov.mvp.user.OnItemClickListener
 
 
-class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListener {
+class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListener,
+    OnItemClickListener {
 
     companion object {
         @JvmStatic
@@ -54,9 +56,13 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString(ID)?.let {
-            presenter.loadUser(it)
+        arguments?.getString(ID)?.let {login->
+            presenter.loadUser(login)
+            binding.tvUserLogin.setOnClickListener {
+                onItemClick(login)
+            }
         }
+
 
     }
 
@@ -83,5 +89,9 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
             ivUserAvatar.makeVisible()
             progressBar.makeGone()
         }
+    }
+
+    override fun onItemClick(login: String) {
+        presenter.onItemClicked(login)
     }
 }
