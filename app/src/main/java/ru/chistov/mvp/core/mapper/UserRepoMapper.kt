@@ -8,7 +8,8 @@ import ru.chistov.mvp.model.GithubUserRepo
 object UserRepoMapper {
     fun mapToEntity(dto: UserRepoDTO):GithubUserRepo{
         return GithubUserRepo(
-            repo = dto.repo
+            repo = dto.repo,
+            forks = dto.forks
         )
     }
 

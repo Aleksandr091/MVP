@@ -20,6 +20,10 @@ class GithubRepositoryImpl(
             .map(UserMapper::mapToEntity)
     }
 
+    override fun getUserRepoById(login: String): Single<GithubUserRepo> {
+        TODO("Not yet implemented")
+    }
+
     override fun getReposByUsers(login: String): Single<List<GithubUserRepo>> {
         return usersApi.getRepos(login).map { it.map (UserRepoMapper::mapToEntity) }
     }

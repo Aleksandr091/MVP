@@ -7,5 +7,6 @@ import ru.chistov.mvp.model.GithubUserRepo
 interface GithubRepository {
     fun getUsers(): Single<List<GithubUser>>
     fun getUserById(login: String): Single<GithubUser>
+    fun getUserRepoById(login: String): Single<GithubUserRepo>
     fun getReposByUsers(login: String): Single<List<GithubUserRepo>>
 }

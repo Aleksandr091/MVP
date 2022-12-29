@@ -1,17 +1,16 @@
 package ru.chistov.mvp.userDetails
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.chistov.mvp.REPO
 import ru.chistov.mvp.databinding.ItemUserRepoBinding
-import ru.chistov.mvp.loadImage
-import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.model.GithubUserRepo
-import ru.chistov.mvp.user.OnItemClickListener
 
-class UserDetailsAdapter() :
+class UserDetailsAdapter( private val onItemRepoClickListener:OnItemRepoClickListener) :
     RecyclerView.Adapter<UserDetailsAdapter.UserRepoViewHolder>() {
 
     var repos: List<GithubUserRepo> = emptyList()
@@ -46,6 +45,14 @@ class UserDetailsAdapter() :
             ItemUserRepoBinding.bind(itemView).apply {
                 with(githubUserRepo) {
                     tvUserRepo.text = githubUserRepo.repo
+                    itemView.setOnClickListener {
+                        onItemRepoClickListener.onItemClick(
+                            Bundle().apply { putParcelable(
+                                REPO,
+                                githubUserRepo
+                            ) }
+                        )
+                    }
 
                 }
             }

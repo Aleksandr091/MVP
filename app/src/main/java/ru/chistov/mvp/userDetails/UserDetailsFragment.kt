@@ -13,14 +13,13 @@ import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentUsersRepoListBinding
 import ru.chistov.mvp.model.GithubUserRepo
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
-import ru.chistov.mvp.user.OnItemClickListener
 
 
-class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, OnBackPressedListener {
+class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, RepoOnBackPressedListener,OnItemRepoClickListener{
 
     private lateinit var viewBinding: FragmentUsersRepoListBinding
 
-    private val adapter = UserDetailsAdapter()
+    private val adapter = UserDetailsAdapter(this)
 
     private val presenter: UserDetailsPresenter by moxyPresenter {
         UserDetailsPresenter(
@@ -43,8 +42,11 @@ class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, OnBackPresse
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString(ID_REPO)?.let {
-            presenter.loadRepo(it)
+        arguments?.getString(ID_REPO)?.let { login->
+            presenter.loadRepo(login)
+        }
+
+        viewBinding.rvGithubUsersRepo.setOnClickListener {
         }
         with(viewBinding) {
             rvGithubUsersRepo.layoutManager = LinearLayoutManager(requireContext())
@@ -69,7 +71,7 @@ class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, OnBackPresse
         }
     }
 
-    override fun onBackPressed()= presenter.onBackPressed()
+    override fun onBackPressed(login: String)= presenter.onBackPressed(login)
 
     companion object {
         @JvmStatic
@@ -80,6 +82,10 @@ class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, OnBackPresse
                 }
             }
         }
+    }
+
+    override fun onItemClick(bundle: Bundle) {
+        presenter.onItemClicked(bundle)
     }
 
 }
