@@ -11,19 +11,16 @@ import ru.chistov.mvp.core.navigation.UsersScreen
 import ru.chistov.mvp.disposeBy
 import ru.chistov.mvp.model.GithubUserRepo
 import ru.chistov.mvp.repository.Interface.GithubRepository
+import ru.chistov.mvp.repository.impl.GithubRepoRepositoryImpl
 import ru.chistov.mvp.subscribeByDefault
 
 class UserDetailsPresenter(
-    private val repository: GithubRepository,
+    private val repository: GithubRepoRepositoryImpl,
     private val router: Router
 ) : MvpPresenter<UserDetailsView>() {
 
     private val bag = CompositeDisposable()
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-
-    }
     fun loadRepo(login: String) {
         viewState.showLoading()
         repository.getReposByUsers(login)

@@ -1,4 +1,4 @@
-package ru.chistov.mvp.user
+package ru.chistov.mvp.users
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router

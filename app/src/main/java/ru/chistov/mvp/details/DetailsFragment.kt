@@ -12,7 +12,7 @@ import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentDetailsBinding
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
-import ru.chistov.mvp.user.OnItemClickListener
+import ru.chistov.mvp.users.OnItemClickListener
 
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListener,
@@ -41,7 +41,13 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
     }
 
     private val presenter: DetailsPresenter by moxyPresenter {
-        DetailsPresenter(GithubRepositoryImpl(NetworkProvider.usersApi), GeekBrainsApp.instance.router)
+        DetailsPresenter(
+            GithubRepositoryImpl(
+                NetworkProvider.usersApi,
+                GeekBrainsApp.instance.database.userDao(),
+                GeekBrainsApp.instance.getConnectSingle()
+            ), GeekBrainsApp.instance.router
+        )
     }
 
     override fun onCreateView(
@@ -56,7 +62,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString(ID)?.let {login->
+        arguments?.getString(ID)?.let { login ->
             presenter.loadUser(login)
             binding.tvUserLogin.setOnClickListener {
                 onItemClick(login)

@@ -1,12 +1,10 @@
-package ru.chistov.mvp.user
+package ru.chistov.mvp.users
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import ru.chistov.mvp.R
 import ru.chistov.mvp.databinding.ItemUserBinding
 import ru.chistov.mvp.loadImage
 import ru.chistov.mvp.model.GithubUser

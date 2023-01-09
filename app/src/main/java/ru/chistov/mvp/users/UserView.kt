@@ -1,4 +1,4 @@
-package ru.chistov.mvp.user
+package ru.chistov.mvp.users
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy

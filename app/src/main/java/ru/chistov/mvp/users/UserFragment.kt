@@ -1,4 +1,4 @@
-package ru.chistov.mvp.user
+package ru.chistov.mvp.users
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,8 +31,11 @@ class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener, On
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             GithubRepositoryImpl(
-                NetworkProvider.usersApi),
-                GeekBrainsApp.instance.router
+                NetworkProvider.usersApi,
+                GeekBrainsApp.instance.database.userDao(),
+                GeekBrainsApp.instance.getConnectSingle()
+            ),
+            GeekBrainsApp.instance.router
         )
     }
 

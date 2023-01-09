@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.chistov.mvp.details.DetailsFragment
 import ru.chistov.mvp.repoDetails.RepoDetailsFragment
-import ru.chistov.mvp.user.UserFragment
+import ru.chistov.mvp.users.UserFragment
 import ru.chistov.mvp.userDetails.UserDetailsFragment
 
 

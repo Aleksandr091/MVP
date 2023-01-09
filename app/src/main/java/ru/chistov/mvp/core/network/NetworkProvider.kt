@@ -10,14 +10,14 @@ import ru.chistov.mvp.BuildConfig
 
 object NetworkProvider {
 
-    val usersApi by lazy { createRetrofit().create(UsersApi::class.java) }
+    val usersApi: UsersApi by lazy { createRetrofit().create(UsersApi::class.java) }
 
     private fun createGson() = GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES) //вместо @SerializedName
         .excludeFieldsWithoutExposeAnnotation()
         .create()
 
-    fun createRetrofit() = Retrofit.Builder().apply {
+    private fun createRetrofit()= Retrofit.Builder().apply {
         addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         addConverterFactory(GsonConverterFactory.create(createGson()))
         baseUrl(BuildConfig.SERVER_URL)

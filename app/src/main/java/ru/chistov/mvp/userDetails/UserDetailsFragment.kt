@@ -12,6 +12,7 @@ import ru.chistov.mvp.core.OnBackPressedListener
 import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentUsersRepoListBinding
 import ru.chistov.mvp.model.GithubUserRepo
+import ru.chistov.mvp.repository.impl.GithubRepoRepositoryImpl
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
 
 
@@ -23,7 +24,7 @@ class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, RepoOnBackPr
 
     private val presenter: UserDetailsPresenter by moxyPresenter {
         UserDetailsPresenter(
-            GithubRepositoryImpl(
+            GithubRepoRepositoryImpl(
                 NetworkProvider.usersApi),
             GeekBrainsApp.instance.router
         )

@@ -10,24 +10,15 @@ import ru.chistov.mvp.repository.Interface.GithubRepository
 
 
 class RepoDetailsPresenter(
-    private val repository: GithubRepository,
     private val router: Router
 ) : MvpPresenter<RepoDetailsView>() {
 
     private val bag = CompositeDisposable()
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-
-    }
-
-
     fun onBackPressed(login: String): Boolean {
         router.backTo(UserDetailsScreen(login))
         return true
     }
-
-
 
 
     override fun onDestroy() {

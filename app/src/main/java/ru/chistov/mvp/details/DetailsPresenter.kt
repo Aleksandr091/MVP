@@ -18,11 +18,6 @@ class DetailsPresenter(
 
     private val bag = CompositeDisposable()
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-
-    }
-
     fun loadUser(login: String) {
         repository.getUserById(login)
             .subscribeByDefault()

@@ -5,9 +5,6 @@ import ru.chistov.mvp.core.databaze.UserWithReposDBObject
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.model.GithubUserRepo
 
-interface GithubRepository {
-    fun getUsers(): Single<List<GithubUser>>
-    fun getUserById(login: String): Single<GithubUser>
+interface GithubRepoRepository {
     fun getReposByUsers(login: String): Single<List<GithubUserRepo>>
-    fun getUserWithRepos(login: String): Single<GithubUser>
 }
