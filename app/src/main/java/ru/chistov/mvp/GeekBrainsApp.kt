@@ -23,7 +23,9 @@ class GeekBrainsApp : Application() {
     val navigatorHolder = cicerone.getNavigatorHolder()
     val router = cicerone.router
     private lateinit var connectivityListener: ConnectivityListener
-    val database: GithubAppDb by lazy { GithubAppDb.create(this) }
+
+    val database by lazy {
+        GithubAppDb.create(this) }
 
     override fun onCreate() {
         super.onCreate()

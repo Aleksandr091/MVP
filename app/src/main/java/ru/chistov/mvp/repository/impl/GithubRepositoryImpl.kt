@@ -1,8 +1,6 @@
 package ru.chistov.mvp.repository.impl
 
 import io.reactivex.rxjava3.core.Single
-import ru.chistov.mvp.core.databaze.IDependency
-import ru.chistov.mvp.core.databaze.RoomGithubUsersCache
 import ru.chistov.mvp.core.databaze.UserDAO
 import ru.chistov.mvp.core.mapper.UserMapper
 import ru.chistov.mvp.core.mapper.UserRepoMapper

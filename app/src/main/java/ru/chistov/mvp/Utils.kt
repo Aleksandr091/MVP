@@ -10,9 +10,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-const val ID_BUTTON_ONE = 0
-const val ID_BUTTON_TWO = 1
-const val ID_BUTTON_THEE = 2
 const val ID = "ID"
 const val REPO = "REPO"
 const val ID_REPO = "ID_REPO"
