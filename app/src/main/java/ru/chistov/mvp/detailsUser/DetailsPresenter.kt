@@ -1,10 +1,9 @@
-package ru.chistov.mvp.details
+package ru.chistov.mvp.detailsUser
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
-import ru.chistov.mvp.core.navigation.DetailsScreen
 import ru.chistov.mvp.core.navigation.UserDetailsScreen
 import ru.chistov.mvp.core.navigation.UsersScreen
 import ru.chistov.mvp.disposeBy
@@ -14,7 +13,7 @@ import ru.chistov.mvp.subscribeByDefault
 class DetailsPresenter(
     private val repository: GithubRepository,
     private val router: Router
-) : MvpPresenter<DetailsView>() {
+) : MvpPresenter<DetailsUserView>() {
 
     private val bag = CompositeDisposable()
 

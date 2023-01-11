@@ -13,7 +13,7 @@ data class RepoDBObject(
     val repo: String,
     val forks: Int,
     @ColumnInfo(name = FOREIGN_USER_KEY)
-    val userId:Long
+    val userId:String
 ){
     companion object{
         const val PRIMARY_KEY = "id"

@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey
 data class UserDBObject (
     @PrimaryKey
     @ColumnInfo(name = PRIMARY_KEY)
-    val id:Long,
     val login:String,
+    val id:Long,
     val avatarUrl: String?
     ){
     companion object{
-        const val PRIMARY_KEY = "id"
+        const val PRIMARY_KEY = "login"
     }
 }

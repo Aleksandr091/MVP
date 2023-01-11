@@ -1,4 +1,4 @@
-package ru.chistov.mvp.userDetails
+package ru.chistov.mvp.userRepos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,24 +8,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.*
-import ru.chistov.mvp.core.OnBackPressedListener
 import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentUsersRepoListBinding
 import ru.chistov.mvp.model.GithubUserRepo
-import ru.chistov.mvp.repository.impl.GithubRepoRepositoryImpl
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
 
 
-class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, RepoOnBackPressedListener,OnItemRepoClickListener{
+class UserReposFragment: MvpAppCompatFragment(), UserReposView, RepoOnBackPressedListener,OnItemRepoClickListener{
 
     private lateinit var viewBinding: FragmentUsersRepoListBinding
 
-    private val adapter = UserDetailsAdapter(this)
+    private val adapter = UserReposAdapter(this)
 
-    private val presenter: UserDetailsPresenter by moxyPresenter {
-        UserDetailsPresenter(
-            GithubRepoRepositoryImpl(
-                NetworkProvider.usersApi),
+    private val presenter: UserReposPresenter by moxyPresenter {
+        UserReposPresenter(
+            GithubRepositoryImpl(
+                NetworkProvider.usersApi,
+                GeekBrainsApp.instance.database.userDao(),
+                GeekBrainsApp.instance.getConnectSingle()
+            ),
             GeekBrainsApp.instance.router
         )
     }
@@ -76,8 +77,8 @@ class UserDetailsFragment: MvpAppCompatFragment(), UserDetailsView, RepoOnBackPr
 
     companion object {
         @JvmStatic
-        fun getInstance(login: String): UserDetailsFragment {
-            return UserDetailsFragment().apply {
+        fun getInstance(login: String): UserReposFragment {
+            return UserReposFragment().apply {
                 arguments = Bundle().apply {
                     putString(ID_REPO, login)
                 }

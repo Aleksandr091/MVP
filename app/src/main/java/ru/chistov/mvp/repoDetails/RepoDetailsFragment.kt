@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.*
-import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentRepoDetailsBinding
 import ru.chistov.mvp.model.GithubUserRepo
-import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
-import ru.chistov.mvp.userDetails.RepoOnBackPressedListener
+import ru.chistov.mvp.userRepos.RepoOnBackPressedListener
 
 
 class RepoDetailsFragment : MvpAppCompatFragment(), RepoDetailsView, RepoOnBackPressedListener {

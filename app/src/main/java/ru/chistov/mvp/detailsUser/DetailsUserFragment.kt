@@ -1,4 +1,4 @@
-package ru.chistov.mvp.details
+package ru.chistov.mvp.detailsUser
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,8 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.*
 import ru.chistov.mvp.core.OnBackPressedListener
+import ru.chistov.mvp.core.databaze.IDependency
+import ru.chistov.mvp.core.databaze.RoomGithubUsersCache
 import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentDetailsBinding
 import ru.chistov.mvp.model.GithubUser
@@ -15,13 +17,13 @@ import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
 import ru.chistov.mvp.users.OnItemClickListener
 
 
-class DetailsFragment : MvpAppCompatFragment(), DetailsView, OnBackPressedListener,
+class DetailsUserFragment : MvpAppCompatFragment(), DetailsUserView, OnBackPressedListener,
     OnItemClickListener {
 
     companion object {
         @JvmStatic
-        fun getInstance(login: String): DetailsFragment {
-            return DetailsFragment().apply {
+        fun getInstance(login: String): DetailsUserFragment {
+            return DetailsUserFragment().apply {
                 arguments = Bundle().apply {
                     putString(ID, login)
                 }

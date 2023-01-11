@@ -1,4 +1,4 @@
-package ru.chistov.mvp.userDetails
+package ru.chistov.mvp.userRepos
 
 import android.os.Bundle
 import android.util.Log
@@ -7,17 +7,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import ru.chistov.mvp.core.navigation.RepoDetailsScreen
 import ru.chistov.mvp.core.navigation.UserDetailsScreen
-import ru.chistov.mvp.core.navigation.UsersScreen
 import ru.chistov.mvp.disposeBy
-import ru.chistov.mvp.model.GithubUserRepo
 import ru.chistov.mvp.repository.Interface.GithubRepository
-import ru.chistov.mvp.repository.impl.GithubRepoRepositoryImpl
 import ru.chistov.mvp.subscribeByDefault
 
-class UserDetailsPresenter(
-    private val repository: GithubRepoRepositoryImpl,
+class UserReposPresenter(
+    private val repository: GithubRepository,
     private val router: Router
-) : MvpPresenter<UserDetailsView>() {
+) : MvpPresenter<UserReposView>() {
 
     private val bag = CompositeDisposable()
 

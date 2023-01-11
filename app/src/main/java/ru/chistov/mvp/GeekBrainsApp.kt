@@ -4,17 +4,20 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
+import androidx.room.Room
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import ru.chistov.mvp.core.databaze.GithubAppDb
+import ru.chistov.mvp.core.databaze.UserDAO
 
 class GeekBrainsApp : Application() {
 
 
     companion object {
         lateinit var instance: GeekBrainsApp
+
     }
 
     private val cicerone: Cicerone<Router> by lazy {
@@ -27,9 +30,11 @@ class GeekBrainsApp : Application() {
     val database by lazy {
         GithubAppDb.create(this) }
 
+
     override fun onCreate() {
         super.onCreate()
         instance = this
+
 
         connectivityListener = ConnectivityListener(
             applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

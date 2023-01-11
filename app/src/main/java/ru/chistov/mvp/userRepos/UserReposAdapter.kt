@@ -1,4 +1,4 @@
-package ru.chistov.mvp.userDetails
+package ru.chistov.mvp.userRepos
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,8 +10,8 @@ import ru.chistov.mvp.REPO
 import ru.chistov.mvp.databinding.ItemUserRepoBinding
 import ru.chistov.mvp.model.GithubUserRepo
 
-class UserDetailsAdapter( private val onItemRepoClickListener:OnItemRepoClickListener) :
-    RecyclerView.Adapter<UserDetailsAdapter.UserRepoViewHolder>() {
+class UserReposAdapter(private val onItemRepoClickListener:OnItemRepoClickListener) :
+    RecyclerView.Adapter<UserReposAdapter.UserRepoViewHolder>() {
 
     var repos: List<GithubUserRepo> = emptyList()
         set(value) {
