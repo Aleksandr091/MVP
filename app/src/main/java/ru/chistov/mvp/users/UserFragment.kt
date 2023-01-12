@@ -9,6 +9,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.GeekBrainsApp
 import ru.chistov.mvp.core.OnBackPressedListener
+import ru.chistov.mvp.core.databaze.RoomGithubUsersCache
 import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentUsersListBinding
 import ru.chistov.mvp.makeGone
@@ -28,12 +29,15 @@ class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener, On
 
     private val adapter = UserAdapter(this)
 
+    private val userDao = GeekBrainsApp.instance.database.userDao()
+    private val connect = GeekBrainsApp.instance.getConnectSingle()
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             GithubRepositoryImpl(
                 NetworkProvider.usersApi,
-                GeekBrainsApp.instance.database.userDao(),
-                GeekBrainsApp.instance.getConnectSingle()
+                userDao,
+                connect,
+                RoomGithubUsersCache(userDao)
             ),
             GeekBrainsApp.instance.router
         )

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.*
+import ru.chistov.mvp.core.databaze.RoomGithubUsersCache
 import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentUsersRepoListBinding
 import ru.chistov.mvp.model.GithubUserRepo
@@ -19,13 +20,15 @@ class UserReposFragment: MvpAppCompatFragment(), UserReposView, RepoOnBackPresse
     private lateinit var viewBinding: FragmentUsersRepoListBinding
 
     private val adapter = UserReposAdapter(this)
-
+    private val userDao = GeekBrainsApp.instance.database.userDao()
+    private val connect = GeekBrainsApp.instance.getConnectSingle()
     private val presenter: UserReposPresenter by moxyPresenter {
         UserReposPresenter(
             GithubRepositoryImpl(
                 NetworkProvider.usersApi,
-                GeekBrainsApp.instance.database.userDao(),
-                GeekBrainsApp.instance.getConnectSingle()
+                userDao,
+                connect,
+                RoomGithubUsersCache(userDao)
             ),
             GeekBrainsApp.instance.router
         )

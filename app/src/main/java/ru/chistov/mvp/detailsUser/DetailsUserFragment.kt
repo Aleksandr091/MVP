@@ -30,7 +30,8 @@ class DetailsUserFragment : MvpAppCompatFragment(), DetailsUserView, OnBackPress
             }
         }
     }
-
+    private val userDao = GeekBrainsApp.instance.database.userDao()
+    private val connect = GeekBrainsApp.instance.getConnectSingle()
     private var _binding: FragmentDetailsBinding? = null
     private val binding: FragmentDetailsBinding
         get() {
@@ -46,8 +47,9 @@ class DetailsUserFragment : MvpAppCompatFragment(), DetailsUserView, OnBackPress
         DetailsPresenter(
             GithubRepositoryImpl(
                 NetworkProvider.usersApi,
-                GeekBrainsApp.instance.database.userDao(),
-                GeekBrainsApp.instance.getConnectSingle()
+                userDao,
+                connect,
+                RoomGithubUsersCache(userDao)
             ), GeekBrainsApp.instance.router
         )
     }

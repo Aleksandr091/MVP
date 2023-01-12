@@ -1,10 +1,7 @@
 package ru.chistov.mvp.repository.impl
 
 import io.reactivex.rxjava3.core.Single
-import ru.chistov.mvp.core.databaze.IDependency
-import ru.chistov.mvp.core.databaze.RepoDBObject
-import ru.chistov.mvp.core.databaze.UserDAO
-import ru.chistov.mvp.core.databaze.UserDBObject
+import ru.chistov.mvp.core.databaze.*
 import ru.chistov.mvp.core.mapper.UserMapper
 import ru.chistov.mvp.core.mapper.UserRepoMapper
 import ru.chistov.mvp.core.network.UsersApi
@@ -16,7 +13,8 @@ import ru.chistov.mvp.repository.Interface.GithubRepository
 class GithubRepositoryImpl constructor(
     private val usersApi: UsersApi,
     private val userDAO: UserDAO,
-    private val networkStatus: Single<Boolean>
+    private val networkStatus: Single<Boolean>,
+    private val cache:RoomGithubUsersCache
 ) : GithubRepository {
     override fun getUsers(): Single<List<GithubUser>> {
         return networkStatus.flatMap { hasConnection ->
@@ -28,13 +26,15 @@ class GithubRepositoryImpl constructor(
         }
     }
 
-    private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
+    /*private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
         return usersApi.getAllUsers()
             .doCompletableIf(shouldPersist) {
                 userDAO.insertALL(it.map(UserMapper::mapToDBObject))
             }.map { it.map(UserMapper::mapToEntity) }
+    }*/
+    private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
+        return cache.usersCache(true,usersApi.getAllUsers()).map { it.map(UserMapper::mapToEntity) }
     }
-
     private fun getFromDb(): Single<List<GithubUser>> {
         return userDAO.queryForALLUsers().map { it.map(UserMapper::mapToEntity) }
     }
