@@ -5,22 +5,22 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+
 @Database(
     entities = [UserDBObject::class, RepoDBObject::class],
     version = 1
 )
 abstract class GithubAppDb : RoomDatabase() {
 
-    abstract fun userDao():UserDAO
+    abstract fun userDao(): UserDAO
 
-    companion object{
+    companion object {
         fun create(context: Context): GithubAppDb {
-            return Room.databaseBuilder(context,
+            return Room.databaseBuilder(
+                context,
                 GithubAppDb::class.java,
-                "github.db")
-                .build()
+                "github.db"
+            ).build()
         }
     }
-
-
 }

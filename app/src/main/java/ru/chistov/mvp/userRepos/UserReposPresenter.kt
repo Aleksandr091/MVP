@@ -10,12 +10,13 @@ import ru.chistov.mvp.core.navigation.UserDetailsScreen
 import ru.chistov.mvp.disposeBy
 import ru.chistov.mvp.repository.Interface.GithubRepository
 import ru.chistov.mvp.subscribeByDefault
+import javax.inject.Inject
 
-class UserReposPresenter(
-    private val repository: GithubRepository,
-    private val router: Router
-) : MvpPresenter<UserReposView>() {
-
+class UserReposPresenter() : MvpPresenter<UserReposView>() {
+    @Inject
+    lateinit var repository: GithubRepository
+    @Inject
+    lateinit var router: Router
     private val bag = CompositeDisposable()
 
     fun loadRepo(login: String) {

@@ -7,12 +7,12 @@ import ru.chistov.mvp.core.navigation.RepoDetailsScreen
 import ru.chistov.mvp.core.navigation.UserDetailsScreen
 
 import ru.chistov.mvp.repository.Interface.GithubRepository
+import javax.inject.Inject
 
 
-class RepoDetailsPresenter(
-    private val router: Router
-) : MvpPresenter<RepoDetailsView>() {
-
+class RepoDetailsPresenter() : MvpPresenter<RepoDetailsView>() {
+    @Inject
+    lateinit var router: Router
     private val bag = CompositeDisposable()
 
     fun onBackPressed(login: String): Boolean {

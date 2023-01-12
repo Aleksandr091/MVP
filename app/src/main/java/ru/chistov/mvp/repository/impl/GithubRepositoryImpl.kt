@@ -14,7 +14,6 @@ class GithubRepositoryImpl constructor(
     private val usersApi: UsersApi,
     private val userDAO: UserDAO,
     private val networkStatus: Single<Boolean>,
-    private val cache:RoomGithubUsersCache
 ) : GithubRepository {
     override fun getUsers(): Single<List<GithubUser>> {
         return networkStatus.flatMap { hasConnection ->
@@ -26,14 +25,11 @@ class GithubRepositoryImpl constructor(
         }
     }
 
-    /*private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
+    private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
         return usersApi.getAllUsers()
             .doCompletableIf(shouldPersist) {
                 userDAO.insertALL(it.map(UserMapper::mapToDBObject))
             }.map { it.map(UserMapper::mapToEntity) }
-    }*/
-    private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
-        return cache.usersCache(true,usersApi.getAllUsers()).map { it.map(UserMapper::mapToEntity) }
     }
     private fun getFromDb(): Single<List<GithubUser>> {
         return userDAO.queryForALLUsers().map { it.map(UserMapper::mapToEntity) }
@@ -73,6 +69,7 @@ class GithubRepositoryImpl constructor(
     }
 
 
+
     override fun getReposByUsers(login: String): Single<List<GithubUserRepo>> {
         return networkStatus.flatMap { hasConnection ->
             if (hasConnection) {
@@ -82,6 +79,7 @@ class GithubRepositoryImpl constructor(
             }
         }
     }
+
     private fun getReposFromDb(login: String): Single<List<GithubUserRepo>> {
         return userDAO.queryForReposUser(login).map { it.map(UserRepoMapper::mapToEntity) }
     }
@@ -96,6 +94,7 @@ class GithubRepositoryImpl constructor(
                 )
             }.map { it.map(UserRepoMapper::mapToEntity) }
     }
+
 
 
 

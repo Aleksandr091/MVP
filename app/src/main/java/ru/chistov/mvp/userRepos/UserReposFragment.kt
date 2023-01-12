@@ -13,6 +13,7 @@ import ru.chistov.mvp.core.network.NetworkProvider
 import ru.chistov.mvp.databinding.FragmentUsersRepoListBinding
 import ru.chistov.mvp.model.GithubUserRepo
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
+import ru.chistov.mvp.users.UserPresenter
 
 
 class UserReposFragment: MvpAppCompatFragment(), UserReposView, RepoOnBackPressedListener,OnItemRepoClickListener{
@@ -20,18 +21,15 @@ class UserReposFragment: MvpAppCompatFragment(), UserReposView, RepoOnBackPresse
     private lateinit var viewBinding: FragmentUsersRepoListBinding
 
     private val adapter = UserReposAdapter(this)
-    private val userDao = GeekBrainsApp.instance.database.userDao()
-    private val connect = GeekBrainsApp.instance.getConnectSingle()
+
     private val presenter: UserReposPresenter by moxyPresenter {
-        UserReposPresenter(
-            GithubRepositoryImpl(
-                NetworkProvider.usersApi,
-                userDao,
-                connect,
-                RoomGithubUsersCache(userDao)
-            ),
-            GeekBrainsApp.instance.router
-        )
+        UserReposPresenter().apply {
+            GeekBrainsApp.instance.appComponent.inject(this)
+        }
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        GeekBrainsApp.instance.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

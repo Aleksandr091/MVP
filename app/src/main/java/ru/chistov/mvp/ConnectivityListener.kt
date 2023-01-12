@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 
+
 class ConnectivityListener(connectivityManager: ConnectivityManager) {
 
     private val subject = BehaviorSubject.create<Boolean>()
@@ -29,7 +30,7 @@ class ConnectivityListener(connectivityManager: ConnectivityManager) {
         })
     }
 
-    fun status(): Observable<Boolean> = subject
+
 
     fun statusSingle():Single<Boolean> = subject.first(false)
 }

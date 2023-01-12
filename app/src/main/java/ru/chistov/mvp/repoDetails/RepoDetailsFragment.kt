@@ -10,6 +10,7 @@ import ru.chistov.mvp.*
 import ru.chistov.mvp.databinding.FragmentRepoDetailsBinding
 import ru.chistov.mvp.model.GithubUserRepo
 import ru.chistov.mvp.userRepos.RepoOnBackPressedListener
+import ru.chistov.mvp.users.UserPresenter
 
 
 class RepoDetailsFragment : MvpAppCompatFragment(), RepoDetailsView, RepoOnBackPressedListener {
@@ -37,7 +38,13 @@ class RepoDetailsFragment : MvpAppCompatFragment(), RepoDetailsView, RepoOnBackP
     }
 
     private val presenter: RepoDetailsPresenter by moxyPresenter {
-        RepoDetailsPresenter( GeekBrainsApp.instance.router)
+        RepoDetailsPresenter().apply {
+            GeekBrainsApp.instance.appComponent.inject(this)
+        }
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        GeekBrainsApp.instance.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

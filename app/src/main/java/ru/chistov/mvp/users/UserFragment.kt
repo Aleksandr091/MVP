@@ -10,12 +10,15 @@ import moxy.ktx.moxyPresenter
 import ru.chistov.mvp.GeekBrainsApp
 import ru.chistov.mvp.core.OnBackPressedListener
 import ru.chistov.mvp.core.databaze.RoomGithubUsersCache
+import ru.chistov.mvp.core.databaze.UserDAO
 import ru.chistov.mvp.core.network.NetworkProvider
+import ru.chistov.mvp.core.network.UsersApi
 import ru.chistov.mvp.databinding.FragmentUsersListBinding
 import ru.chistov.mvp.makeGone
 import ru.chistov.mvp.makeVisible
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
+import javax.inject.Inject
 
 class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener, OnItemClickListener {
 
@@ -29,18 +32,15 @@ class UserFragment : MvpAppCompatFragment(), UserView, OnBackPressedListener, On
 
     private val adapter = UserAdapter(this)
 
-    private val userDao = GeekBrainsApp.instance.database.userDao()
-    private val connect = GeekBrainsApp.instance.getConnectSingle()
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(
-            GithubRepositoryImpl(
-                NetworkProvider.usersApi,
-                userDao,
-                connect,
-                RoomGithubUsersCache(userDao)
-            ),
-            GeekBrainsApp.instance.router
-        )
+        UserPresenter().apply {
+            GeekBrainsApp.instance.appComponent.inject(this)
+        }
+
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        GeekBrainsApp.instance.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

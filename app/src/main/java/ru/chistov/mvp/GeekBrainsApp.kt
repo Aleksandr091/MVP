@@ -1,52 +1,32 @@
 package ru.chistov.mvp
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.util.Log
-import androidx.room.Room
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.exceptions.UndeliverableException
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import ru.chistov.mvp.core.databaze.GithubAppDb
-import ru.chistov.mvp.core.databaze.UserDAO
+import ru.chistov.mvp.dI.AppComponent
+import ru.chistov.mvp.dI.DaggerAppComponent
+import ru.chistov.mvp.dI.modules.AppModule
 
 class GeekBrainsApp : Application() {
 
 
+
     companion object {
         lateinit var instance: GeekBrainsApp
-
     }
 
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-    val navigatorHolder = cicerone.getNavigatorHolder()
-    val router = cicerone.router
-    private lateinit var connectivityListener: ConnectivityListener
 
-    val database by lazy {
-        GithubAppDb.create(this) }
-
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
         instance = this
 
 
-        connectivityListener = ConnectivityListener(
-            applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        )
-
-            RxJavaPlugins.setErrorHandler {
-                if (it is UndeliverableException) {
-                    Log.e("1", it.message.toString())
-                }
-            }
-
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(applicationContext))
+            .build()
     }
-    fun getConnectObservable() = connectivityListener.status()
-    fun getConnectSingle() = connectivityListener.statusSingle()
+
+
+
 }

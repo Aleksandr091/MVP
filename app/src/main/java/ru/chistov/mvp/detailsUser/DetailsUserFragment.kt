@@ -15,6 +15,7 @@ import ru.chistov.mvp.databinding.FragmentDetailsBinding
 import ru.chistov.mvp.model.GithubUser
 import ru.chistov.mvp.repository.impl.GithubRepositoryImpl
 import ru.chistov.mvp.users.OnItemClickListener
+import ru.chistov.mvp.users.UserPresenter
 
 
 class DetailsUserFragment : MvpAppCompatFragment(), DetailsUserView, OnBackPressedListener,
@@ -30,8 +31,7 @@ class DetailsUserFragment : MvpAppCompatFragment(), DetailsUserView, OnBackPress
             }
         }
     }
-    private val userDao = GeekBrainsApp.instance.database.userDao()
-    private val connect = GeekBrainsApp.instance.getConnectSingle()
+
     private var _binding: FragmentDetailsBinding? = null
     private val binding: FragmentDetailsBinding
         get() {
@@ -44,14 +44,9 @@ class DetailsUserFragment : MvpAppCompatFragment(), DetailsUserView, OnBackPress
     }
 
     private val presenter: DetailsPresenter by moxyPresenter {
-        DetailsPresenter(
-            GithubRepositoryImpl(
-                NetworkProvider.usersApi,
-                userDao,
-                connect,
-                RoomGithubUsersCache(userDao)
-            ), GeekBrainsApp.instance.router
-        )
+        DetailsPresenter().apply {
+            GeekBrainsApp.instance.appComponent.inject(this)
+        }
     }
 
     override fun onCreateView(
