@@ -58,6 +58,11 @@ class DetailsUserFragment : MvpAppCompatFragment(), DetailsUserView, OnBackPress
         return binding.root
 
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        GeekBrainsApp.instance.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

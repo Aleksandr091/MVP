@@ -1,6 +1,8 @@
 package ru.chistov.mvp.repository.impl
 
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
+import ru.chistov.mvp.INetworkStatus
 import ru.chistov.mvp.core.databaze.*
 import ru.chistov.mvp.core.mapper.UserMapper
 import ru.chistov.mvp.core.mapper.UserRepoMapper
@@ -13,16 +15,11 @@ import ru.chistov.mvp.repository.Interface.GithubRepository
 class GithubRepositoryImpl constructor(
     private val usersApi: UsersApi,
     private val userDAO: UserDAO,
-    private val networkStatus: Single<Boolean>,
+    private val networkStatus: INetworkStatus,
 ) : GithubRepository {
     override fun getUsers(): Single<List<GithubUser>> {
-        return networkStatus.flatMap { hasConnection ->
-            if (hasConnection) {
-                fetchFromApi(true)
-            } else {
-                getFromDb()
-            }
-        }
+        return usersApi.getAllUsers().map { it.map(UserMapper::mapToEntity) }
+
     }
 
     private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
@@ -53,13 +50,8 @@ class GithubRepositoryImpl constructor(
     }
 
     override fun getUserById(login: String): Single<GithubUser> {
-        return networkStatus.flatMap { hasConnection ->
-            if (hasConnection) {
-                fetchUserFromApi(true, login)
-            } else {
-                getUserFromDb(login)
-            }
-        }
+        return usersApi.getUser(login).map(UserMapper::mapToEntity)
+
 
     }
 
@@ -71,13 +63,8 @@ class GithubRepositoryImpl constructor(
 
 
     override fun getReposByUsers(login: String): Single<List<GithubUserRepo>> {
-        return networkStatus.flatMap { hasConnection ->
-            if (hasConnection) {
-                fetchFromApiRepos(true,login)
-            } else {
-                getReposFromDb(login)
-            }
-        }
+        return usersApi.getRepos(login).map { it.map(UserRepoMapper::mapToEntity) }
+
     }
 
     private fun getReposFromDb(login: String): Single<List<GithubUserRepo>> {

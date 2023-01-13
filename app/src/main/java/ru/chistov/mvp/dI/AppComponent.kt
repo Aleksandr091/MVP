@@ -32,13 +32,17 @@ import javax.inject.Singleton
 
 interface AppComponent {
     fun inject(userFragment: UserFragment)
-    fun inject(serPresenter: UserPresenter)
+    fun inject(userPresenter: UserPresenter)
+
     fun inject(mainPresenter: MainPresenter)
     fun inject(mainActivity: MainActivity)
+
     fun inject(userReposPresenter: UserReposPresenter)
     fun inject(detailsUserFragment: DetailsUserFragment)
+
     fun inject(detailsPresenter: DetailsPresenter)
     fun inject(userReposFragment: UserReposFragment)
+
     fun inject(repoDetailsPresenter: RepoDetailsPresenter)
     fun inject(repoDetailsFragment: RepoDetailsFragment)
 

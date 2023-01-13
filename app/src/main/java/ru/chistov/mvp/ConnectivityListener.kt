@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 
-class ConnectivityListener(connectivityManager: ConnectivityManager) {
+class ConnectivityListener(connectivityManager: ConnectivityManager):INetworkStatus {
 
     private val subject = BehaviorSubject.create<Boolean>()
 
@@ -30,7 +30,9 @@ class ConnectivityListener(connectivityManager: ConnectivityManager) {
         })
     }
 
+    override fun isOnlineSingle(): Single<Boolean> = subject.first(false)
+}
+interface INetworkStatus{
 
-
-    fun statusSingle():Single<Boolean> = subject.first(false)
+    fun isOnlineSingle(): Single<Boolean>
 }

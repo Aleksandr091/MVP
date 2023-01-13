@@ -20,6 +20,6 @@ object RepositoryModule {
         userDao: UserDAO,
         networkStatus: ConnectivityListener
     ): GithubRepository {
-        return GithubRepositoryImpl(usersApi, userDao, networkStatus.statusSingle())
+        return GithubRepositoryImpl(usersApi, userDao, networkStatus)
     }
 }
