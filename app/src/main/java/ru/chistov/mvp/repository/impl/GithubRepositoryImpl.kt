@@ -18,16 +18,22 @@ class GithubRepositoryImpl constructor(
     private val networkStatus: INetworkStatus,
 ) : GithubRepository {
     override fun getUsers(): Single<List<GithubUser>> {
-        return usersApi.getAllUsers().map { it.map(UserMapper::mapToEntity) }
+        return networkStatus.isOnlineSingle().flatMap { hasConnection ->
+            if (hasConnection) {
+                fetchFromApi(true)
+            } else {
+                getFromDb()
+            }
+        }.subscribeOn(Schedulers.io())
 
     }
-
     private fun fetchFromApi(shouldPersist: Boolean): Single<List<GithubUser>> {
         return usersApi.getAllUsers()
             .doCompletableIf(shouldPersist) {
                 userDAO.insertALL(it.map(UserMapper::mapToDBObject))
             }.map { it.map(UserMapper::mapToEntity) }
     }
+
     private fun getFromDb(): Single<List<GithubUser>> {
         return userDAO.queryForALLUsers().map { it.map(UserMapper::mapToEntity) }
     }
@@ -41,18 +47,8 @@ class GithubRepositoryImpl constructor(
             }
     }
 
-
-    private fun fetchUserFromApi(shouldPersist: Boolean, login: String): Single<GithubUser> {
-        return usersApi.getUser(login)
-            .doCompletableIf(shouldPersist) {
-                userDAO.insert(UserMapper.mapToDBObject(it))
-            }.map(UserMapper::mapToEntity)
-    }
-
     override fun getUserById(login: String): Single<GithubUser> {
-        return usersApi.getUser(login).map(UserMapper::mapToEntity)
-
-
+        return getUserFromDb(login)
     }
 
 
@@ -60,11 +56,14 @@ class GithubRepositoryImpl constructor(
         return userDAO.queryForUsers(login).map(UserMapper::mapToEntity)
     }
 
-
-
     override fun getReposByUsers(login: String): Single<List<GithubUserRepo>> {
-        return usersApi.getRepos(login).map { it.map(UserRepoMapper::mapToEntity) }
-
+        return networkStatus.isOnlineSingle().flatMap { hasConnection ->
+            if (hasConnection) {
+                fetchFromApiRepos(true,login)
+            } else {
+                getReposFromDb(login)
+            }
+        }.subscribeOn(Schedulers.io())
     }
 
     private fun getReposFromDb(login: String): Single<List<GithubUserRepo>> {
@@ -81,6 +80,7 @@ class GithubRepositoryImpl constructor(
                 )
             }.map { it.map(UserRepoMapper::mapToEntity) }
     }
+
 
 
 
